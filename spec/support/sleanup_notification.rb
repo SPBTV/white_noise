@@ -1,3 +1,5 @@
+require 'spbtv_statics/notification'
+
 RSpec.configure do |config|
   config.around do |example|
     severities = SpbtvStatics::Notification.severities.dup

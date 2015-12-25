@@ -1,7 +1,7 @@
 require 'spbtv_statics/public_error'
 require 'active_support/core_ext/hash/slice'
 
-TestError = Class.new(PublicError)
+TestError = Class.new(SpbtvStatics::PublicError)
 
 class ApiClientExtractor
   def call(env)

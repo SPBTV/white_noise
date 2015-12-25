@@ -26,7 +26,7 @@ This gem defines middleware which renders exceptions in standard format and noti
 Exception subleased from `PublicError` may be registered and rendered as specific HTTP errors:
 
 ```ruby
-OutdatedApiError = Class.new(PubcliError)
+OutdatedApiError = Class.new(PublicError)
 OutdatedApiError.register_as :gone, severity: :info
 ```
 

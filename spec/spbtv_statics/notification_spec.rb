@@ -60,7 +60,7 @@ RSpec.describe SpbtvStatics::Notification do
     described_class.register(TestError, severity: SpbtvStatics::Notification::WARNING)
   end
 
-  let(:notification) { described_class.new(error_class.new, env) }
+  let(:notification) { described_class.new(error_class.new(:error), env) }
 
   describe '#severity' do
     subject { notification.severity }
