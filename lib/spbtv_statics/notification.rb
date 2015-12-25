@@ -1,5 +1,8 @@
 require 'active_support/core_ext/module/attribute_accessors'
+require 'active_support/core_ext/hash/except'
 require 'active_support/hash_with_indifferent_access'
+require 'active_support/concern'
+require 'action_dispatch/http/request'
 
 module SpbtvStatics
   # Provides detailed information about exception
@@ -34,12 +37,12 @@ module SpbtvStatics
       # @param extractor [#call]
       # @return [void]
       #
-      #   class UserExtractor
+      #   class ApiClientExtractor
       #     def call(env)
-      #       ActionDispatch::Request.new(env).ip_address
+      #       env.slice(:client_version, :client_id)
       #     end
       #   end
-      #   Notification.extract(:user, UserExtractor)
+      #   Notification.extract(:api_client, ApiClientExtractor)
       #
       def extract(key, extractor)
         extractors[key] = extractor
@@ -57,14 +60,26 @@ module SpbtvStatics
 
     # @return [{String, Any}]
     def to_hash
-      extractors.each_with_object({}) do |(key, extractor), metadata|
+      extractors.except('user').each_with_object({}) do |(key, extractor), metadata|
         metadata[key] = extractor.new.call(@env)
       end
     end
 
-    # @return [Symbol] Error severity
+    # @return [String] Error severity
     def severity
-      severities[@error.class.name]
+      severities[@error.class.name].to_s
+    end
+
+    # @return [Hash] User info
+    def user_info
+      user = {
+        'id' => ActionDispatch::Request.new(@env).remote_ip
+      }
+
+      if extractors.key?('user')
+        user.merge!(extractors['user'].new.call(@env))
+      end
+      user
     end
   end
 end

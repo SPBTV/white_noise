@@ -1,14 +1,8 @@
 require 'spbtv_statics/notification'
-require 'spbtv_statics/public_error'
 require 'support/fixtures'
+require 'support/sleanup_notification'
 
 RSpec.describe SpbtvStatics::Notification do
-  around do |example|
-    severities = described_class.severities.dup
-    example.run
-    described_class.severities = severities
-  end
-
   describe '.register' do
     let(:severity) { described_class::ERROR }
 
@@ -50,11 +44,16 @@ RSpec.describe SpbtvStatics::Notification do
     end
   end
 
+  let(:ip_address) { '66.66.66.66' }
   let(:env) do
     {
-      'HTTP_X_FORWARDED_FOR' => '66.66.66.66'
+      'HTTP_X_FORWARDED_FOR' => ip_address,
+      'client_id' => 'android',
+      'client_version' => '1.0.0',
+      'user_name' => 'Papadopoulos'
     }
   end
+
   let(:error_class) { TestError }
 
   before do
@@ -67,33 +66,39 @@ RSpec.describe SpbtvStatics::Notification do
     subject { notification.severity }
 
     context 'for registered error' do
-      it { is_expected.to eq(SpbtvStatics::Notification::WARNING) }
+      it { is_expected.to eq('warning') }
     end
 
     context 'for not registered error' do
       let(:error_class) { ArgumentError }
 
-      it { is_expected.to eq(SpbtvStatics::Notification::ERROR) }
+      it { is_expected.to eq('error') }
     end
   end
 
   describe '#to_hash' do
-    let(:extractor_class) do
-      Class.new do
-        def call(env)
-          env['HTTP_X_FORWARDED_FOR']
-        end
-      end
-    end
-
     before do
-      described_class.extract(:user, extractor_class)
+      described_class.extract(:api_client, ApiClientExtractor)
+      described_class.extract(:user, UserExtractor)
     end
 
     subject { notification.to_hash }
 
     it 'contains extracted data' do
-      is_expected.to eq('user' => '66.66.66.66')
+      is_expected.to eq('api_client' => { 'client_id' => 'android', 'client_version' => '1.0.0' })
+      is_expected.not_to have_key('user')
+    end
+  end
+
+  describe '#user_info' do
+    before do
+      described_class.extract(:user, UserExtractor)
+    end
+
+    subject { notification.user_info }
+
+    it 'contains extracted data and id' do
+      is_expected.to eq('id' => '66.66.66.66', 'name' => 'Papadopoulos')
     end
   end
 end

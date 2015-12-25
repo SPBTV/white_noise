@@ -137,6 +137,19 @@ class ApiClientExtractor
 end
 ```
 
+### Configuration
+
+TODO: Move to railtie?
+```ruby
+if Settings.bugsnag.enabled
+  Bugsnag.configure do |config|
+    config.api_key = Settings.bugsnag.api_key
+    config.release_stage = Settings.bugsnag.release_stage if Settings.bugsnag['release_stage']
+    config.middleware.use SpbtvStatics::BugsnagMiddleware
+  end
+end
+```
+
 ## Best Practices
 
 It is strongly encouraged to throw public errors only in controllers. Your domain logic should throw domain-specific exceptions
