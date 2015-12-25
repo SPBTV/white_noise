@@ -1,0 +1,2 @@
+class PublicError < StandardError
+end
