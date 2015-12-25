@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Error",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": ["string", "null"],
+      "description": "A unique ID for the occurrence of the problem"
+    },
+    "code": {
+      "type": "string",
+      "description": "An application-specific error code"
+    },
+    "title": {
+      "type": "string",
+      "description": "A human-readable summary of the problem *for developer*"
+    },
+    "fallback_message": {
+      "type": ["string", "null"],
+      "description": "Localized error message for end user. This error message may be shown to end user if application does not knows how to handle the error."
+    },
+    "links": {
+      "type": "object",
+      "title": "Links",
+      "properties": {
+        "about": {
+          "type": "object",
+          "title": "About",
+          "properties": {
+            "href": {
+              "type": "string",
+              "description": "A link that leads to further details about the occurrence of the problem"
+            }
+          },
+          "required": [
+            "href"
+          ]
+        }
+      },
+      "required": [
+        "about"
+      ]
+    }
+  },
+  "required": [
+    "code",
+    "title",
+    "fallback_message",
+    "links"
+  ]
+}

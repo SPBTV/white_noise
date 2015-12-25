@@ -31,17 +31,17 @@ module SpbtvStatics
       @message_id = message_id.to_sym
       case message_or_options
       when Hash
-        @message_options = message_or_options
+        @options = message_or_options
         @message = nil
       else
-        @message_options = {}
+        @options = {}
         @message = message_or_options
       end
     end
 
     # @return [String]
     def message
-      @message.presence || I18n.t("spbtv_statics.#{self.class.name.demodulize.underscore}.#{@message_id}", message_options)
+      @message.presence || I18n.t("spbtv_statics.#{self.class.name.demodulize.underscore}.#{@message_id}", @options)
     end
 
     # @return [String]

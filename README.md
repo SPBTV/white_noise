@@ -141,12 +141,28 @@ end
 
 TODO: Move to railtie?
 ```ruby
+SpbtvStatics::PublicErrorSerializer.bugsnag_project = 'spb-tv/rosing-api'
+
 if Settings.bugsnag.enabled
   Bugsnag.configure do |config|
     config.api_key = Settings.bugsnag.api_key
     config.release_stage = Settings.bugsnag.release_stage if Settings.bugsnag['release_stage']
     config.middleware.use SpbtvStatics::BugsnagMiddleware
   end
+end
+```
+
+### Override error response format
+
+```ruby
+SpbtvStatics::ExceptionResponder.renderer = lambda do |error, status_code|
+  {
+    meta: {
+      code: status_code,
+      error_id: error.message_id,
+      error_description: error.message
+    }
+  }
 end
 ```
 
