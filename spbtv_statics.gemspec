@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'spbtv_code_style', '~> 1.1.0'
   spec.add_development_dependency 'bugsnag', '~> 2.8'
   spec.add_development_dependency 'addressable', '~> 2.3'
+  spec.add_development_dependency 'rspec_junit_formatter'
 end
