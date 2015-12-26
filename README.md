@@ -24,7 +24,7 @@ OutdatedApiError.register_as :gone, severity: :info
 
 Later somewhere in controller you may throw this exception:
 
-```
+```ruby
 class V0::MoviesController < ApiController
   # @deprecated
   def index
@@ -36,7 +36,7 @@ end
 By default this error would be rendered in [standard SPB TV API style](http://doc.dev.spbtv.com/rosing/client_api_overview.html#errors):
 
 
-```httph
+```json
 Status: 410 Gone
 
 {
