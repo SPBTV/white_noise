@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Tema Bolshakov']
   spec.email         = ['abolshakov@spbtv.com']
 
-  spec.summary       = ''
-  spec.homepage      = ''
+  spec.summary       = 'Defines middleware which renders exceptions in standard SPB TV API style format and notifies Bugsnag.'
+  spec.homepage      = 'http://stash.mwm.local/projects/SS/repos/spbtv-statics/browse'
 
   spec.metadata['allowed_push_host'] = 'http://lrepos.spbtv.com:8081/nexus/content/repositories/private-rubygems/'
 
