@@ -7,6 +7,20 @@ require_relative 'public_error_serializer'
 
 module SpbtvStatics
   # Constructs error response (status, body)
+  # @!attribute [rw] renderer
+  #   @return [Proc<#as_json>] lambda should return any object responding to `#as_json`
+  #   e.g. Hash.
+  #
+  #   @example
+  #     SpbtvStatics::ExceptionResponder.renderer = lambda do |error, status_code|
+  #       {
+  #         meta: {
+  #           code: status_code,
+  #           error_id: error.message_id,
+  #           error_description: error.message
+  #         }
+  #       }
+  #     end
   #
   class ExceptionResponder
     cattr_accessor :renderer, instance_writer: false
