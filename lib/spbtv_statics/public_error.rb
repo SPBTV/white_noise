@@ -1,3 +1,5 @@
+require 'spbtv_statics/notification'
+require 'spbtv_statics/exception_responder'
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string/inflections'
 require 'i18n'
@@ -59,7 +61,7 @@ module SpbtvStatics
       #   GoneError.register_as(:gone, :info)
       #
       def register_as(status, severity:)
-        ExceptionResponder.register(name, status: status)
+        SpbtvStatics::ExceptionResponder.register(name, status: status)
         SpbtvStatics::Notification.register(name, severity: severity)
       end
     end

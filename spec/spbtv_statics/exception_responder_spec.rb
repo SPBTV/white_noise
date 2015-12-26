@@ -6,10 +6,6 @@ require 'support/sleanup_notification'
 RSpec.describe SpbtvStatics::ExceptionResponder do
   let(:error) { TestError.new(:bad_request, 'unknown error') }
 
-  before do
-    TestError.register_as(:bad_request, severity: :info)
-  end
-
   subject(:responder) { described_class.new(error) }
 
   describe '#status_code' do
@@ -33,7 +29,6 @@ RSpec.describe SpbtvStatics::ExceptionResponder do
             object: 'error',
             title: 'unknown error',
             fallback_message: nil
-
           }
         ],
         meta: {
