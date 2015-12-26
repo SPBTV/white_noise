@@ -1,6 +1,11 @@
 require 'spbtv_statics/version'
+require 'spbtv_statics/public_error'
+require 'active_support/configurable'
 
 #
 module SpbtvStatics
-  # Your code goes here...
+  include ActiveSupport::Configurable
+
+  config.bugsnag_enabled = true
+  config.bugsnag_project = nil
 end

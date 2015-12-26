@@ -1,28 +1,20 @@
 # SpbtvStatics
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/spbtv_exceptions`. To experiment with that code, run `bin/console` for an interactive prompt.
+![TV Statics](https://habrastorage.org/files/6ca/008/f52/6ca008f5290043daa94f705da21b6c6a.jpg)
 
-TODO: Delete this and the text above, and describe your gem
+This gem defines middleware which renders exceptions in [standard SPB TV API style format](http://doc.dev.spbtv.com/rosing/client_api_overview.html#errors)
+and notifies [Bugsnag](http://bugsnag.com).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'spbtv_statics'
+gem 'spbtv_statics', require: 'spbtv_statics/railtie'
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install spbtv_statics
 
 ## Usage
 
-This gem defines middleware which renders exceptions in standard format and notifies [Bugsnag](http://bugsnag.com).
 Exception subleased from `PublicError` may be registered and rendered as specific HTTP errors:
 
 ```ruby
@@ -52,7 +44,13 @@ Status: 410 Gone
     "id": null,
     "code": "outdated_api",
     "title": "API v0 is no longer active. Please migrate to API v1",
-    "status": 410
+    "status": 410,
+     links: {
+       about: {
+         href: 'https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=unknown%20error&filters[event.class][]=OutdatedApiError'
+       }
+     },
+    "
   }],
   "meta": {
     "status": 410
@@ -60,7 +58,7 @@ Status: 410 Gone
 }
 ```
 
-Thus, the first parameter of the `PublicError` constructor is rendered as `code` and the second as `title` (`description`?).
+Thus, the first parameter of the `PublicError` constructor is rendered as `code` and the second as `title`.
 
 You may omit second argument to pick message from localization:
 
@@ -121,7 +119,8 @@ SpbtvStatics::Notification.extract(:api_client, ApiClientExtractor)
 
 class ApiClientExtractor
   # @param env [Hash]
-  # @return [Hash] to be shown on the tab
+  # @return [Hash] of values to be shown on the tab
+  #
   def call(env)
     api_client = env['warden'].user(:api_client)
     if api_client
@@ -137,22 +136,19 @@ class ApiClientExtractor
 end
 ```
 
-### Configuration
+If you want to show link to Bugsnag error page on the error response, you have to configure Bugsnag project:
 
-TODO: Move to railtie?
 ```ruby
-SpbtvStatics::PublicErrorSerializer.bugsnag_project = 'spb-tv/rosing-api'
-
-if Settings.bugsnag.enabled
-  Bugsnag.configure do |config|
-    config.api_key = Settings.bugsnag.api_key
-    config.release_stage = Settings.bugsnag.release_stage if Settings.bugsnag['release_stage']
-    config.middleware.use SpbtvStatics::BugsnagMiddleware
-  end
-end
+SpbtvStatics.config.bugsnag_project = 'spb-tv/rosing-api'
 ```
 
-### Override error response format
+To disable Bugsnag integration:
+
+```ruby
+SpbtvStatics.config.bugsnag_enabled = false
+```
+
+Override error response format:
 
 ```ruby
 SpbtvStatics::ExceptionResponder.renderer = lambda do |error, status_code|
@@ -169,7 +165,7 @@ end
 ## Best Practices
 
 It is strongly encouraged to throw public errors only in controllers. Your domain logic should throw domain-specific exceptions
-or even be exceptions-free.
+or better be exceptions-free.
 
 ## Development
 

@@ -8,7 +8,7 @@ RSpec.describe SpbtvStatics::ExceptionsApp do
   let(:env) { { 'action_dispatch.exception' => exception } }
 
   before do
-    SpbtvStatics::PublicErrorSerializer.bugsnag_project = 'spb-tv/rosing-api'
+    SpbtvStatics.config.bugsnag_project = 'spb-tv/rosing-api'
   end
 
   subject(:response) { described_class.new.call(env) }

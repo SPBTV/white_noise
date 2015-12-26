@@ -4,6 +4,7 @@ require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string/inflections'
 require 'i18n'
 
+#
 module SpbtvStatics
   # Base class for all api level errors
   #
@@ -66,4 +67,44 @@ module SpbtvStatics
       end
     end
   end
+
+  # 400
+  BadRequestError = Class.new(PublicError)
+  BadRequestError.register_as :bad_request, severity: :info
+
+  # 401
+  UnauthorizedError = Class.new(PublicError)
+  UnauthorizedError.register_as :unauthorized, severity: :warning
+
+  # 403
+  ForbiddenError = Class.new(PublicError)
+  ForbiddenError.register_as :forbidden, severity: :warning
+
+  # 404
+  class NotFoundError < PublicError
+    def initialize(message_id = 'not_found', message = nil)
+      super
+    end
+  end
+  NotFoundError.register_as :not_found, severity: :info
+
+  # 410
+  GoneError = Class.new(PublicError)
+  GoneError.register_as :gone, severity: :info
+
+  # 415
+  class UnsupportedMediaTypeError < PublicError
+    def initialize(message_id = 'unsupported_media_type', message = nil)
+      super
+    end
+  end
+  UnsupportedMediaTypeError.register_as :unsupported_media_type, severity: :info
+
+  # 422
+  class UnprocessableEntityError < PublicError
+    def initialize(message_id = :unprocessable_entity, message = nil)
+      super
+    end
+  end
+  UnprocessableEntityError.register_as :unprocessable_entity, severity: :info
 end

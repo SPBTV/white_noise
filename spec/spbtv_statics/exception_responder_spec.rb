@@ -1,4 +1,5 @@
 require 'active_support/core_ext/hash/keys'
+require 'spbtv_statics'
 require 'spbtv_statics/exception_responder'
 require 'support/fixtures'
 require 'support/sleanup_notification'
@@ -38,7 +39,7 @@ RSpec.describe SpbtvStatics::ExceptionResponder do
     end
 
     before do
-      SpbtvStatics::PublicErrorSerializer.bugsnag_project = 'spb-tv/rosing-api'
+      SpbtvStatics.config.bugsnag_project = 'spb-tv/rosing-api'
     end
 
     it 'serializes errors to response body' do

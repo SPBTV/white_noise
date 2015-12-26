@@ -7,7 +7,6 @@ module SpbtvStatics
   #
   class PublicErrorSerializer < ActiveModel::Serializer
     BUGSNAG_URL = 'https://bugsnag.com/{project}/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]={message}&filters[event.class][]={class}' # rubocop:disable Metrics/LineLength
-    cattr_accessor :bugsnag_project, instance_writer: false
 
     attributes :code,
                :links,
@@ -54,11 +53,11 @@ module SpbtvStatics
     end
 
     def bugsnag_search_url
-      return unless bugsnag_project
+      return unless SpbtvStatics.config.bugsnag_project
       require 'addressable/template'
 
       template = Addressable::Template.new(BUGSNAG_URL)
-      template.expand(class: object.class.to_s, message: object.message, project: bugsnag_project)
+      template.expand(class: object.class.to_s, message: object.message, project: SpbtvStatics.config.bugsnag_project)
     end
   end
 end
