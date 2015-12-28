@@ -18,8 +18,8 @@ gem 'noise', require: 'noise/railtie'
 Exception subleased from `PublicError` may be registered and rendered as specific HTTP errors:
 
 ```ruby
-OutdatedApiError = Class.new(PublicError)
-OutdatedApiError.register_as :gone, severity: :info
+GoneError = Class.new(PublicError)
+GoneError.register_as :gone, severity: :info
 ```
 
 Later somewhere in controller you may throw this exception:
@@ -28,7 +28,7 @@ Later somewhere in controller you may throw this exception:
 class V0::MoviesController < ApiController
   # @deprecated
   def index
-    fail OutdatedApiError.new(:outdated_api, 'API v0 is no longer active. Please migrate to API v1'
+    fail GoneError.new(:outdated_api, 'API v0 is no longer active. Please migrate to API v1'
   end
 end
 ```
@@ -63,13 +63,13 @@ Thus, the first parameter of the `PublicError` constructor is rendered as `code`
 You may omit second argument to pick message from localization:
 
 ```ruby
-fail OutdatedApiError, :outdated_api
+fail GoneError, :outdated_api
 ```
 
 It is the equivalent of:
 
 ```ruby
-fail OutdatedApiError.new(:outdated_api, I18n.t('noise.outdated_api_error.outdated_api'))
+fail GoneError.new(:outdated_api, I18n.t('noise.outdated_api_error.outdated_api'))
 ```
 
 If you have to pass attributes some substitution into localized string, provide the second attribute as a hash:
@@ -96,18 +96,12 @@ Class                      | HTTP status code
 `UnsupportedMediaTypeError`| 415 Unsupported Media Type
 `UnprocessableEntityError` | 422 Unprocessable Entity
 
-It is allowed to have subclasses of predefined errors:
-
-```ruby
-OutdatedApiError = Class.new(GoneError)
-```
-
 ## Bugsnag Notification
 
 This gem notifies Bugsnag about all errors. You are free to adjust severity of errors on per class basis:
 
 ```ruby
-OutdatedApiError.register_as :gone, severity: :info
+GoneError.register_as :gone, severity: :info
 ```
 
 You can customize tabs to be shown on Bugsnag:
