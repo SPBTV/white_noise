@@ -1,7 +1,7 @@
-require 'spbtv_statics/public_error'
+require 'noise/public_error'
 require 'active_support/core_ext/hash/slice'
 
-TestError = Class.new(SpbtvStatics::PublicError)
+TestError = Class.new(Noise::PublicError)
 TestError.register_as(:bad_request, severity: :info)
 
 class ApiClientExtractor

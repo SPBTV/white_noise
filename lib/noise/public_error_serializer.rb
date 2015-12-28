@@ -1,7 +1,7 @@
 require 'rack/utils'
 require 'active_model_serializers'
 
-module SpbtvStatics
+module Noise
   # Errors api representation.
   # Serializes api level errors to general errors format.
   #
@@ -53,11 +53,11 @@ module SpbtvStatics
     end
 
     def bugsnag_search_url
-      return unless SpbtvStatics.config.bugsnag_project
+      return unless Noise.config.bugsnag_project
       require 'addressable/template'
 
       template = Addressable::Template.new(BUGSNAG_URL)
-      template.expand(class: object.class.to_s, message: object.message, project: SpbtvStatics.config.bugsnag_project)
+      template.expand(class: object.class.to_s, message: object.message, project: Noise.config.bugsnag_project)
     end
   end
 end

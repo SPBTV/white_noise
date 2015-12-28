@@ -1,4 +1,4 @@
-# SpbtvStatics
+# Noise
 
 ![TV Statics](https://habrastorage.org/files/6ca/008/f52/6ca008f5290043daa94f705da21b6c6a.jpg)
 
@@ -10,7 +10,7 @@ and notifies [Bugsnag](http://bugsnag.com).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'spbtv_statics', require: 'spbtv_statics/railtie'
+gem 'noise', require: 'noise/railtie'
 ```
 
 ## Usage
@@ -69,7 +69,7 @@ fail OutdatedApiError, :outdated_api
 It is the equivalent of:
 
 ```ruby
-fail OutdatedApiError.new(:outdated_api, I18n.t('spbtv_statics.outdated_api_error.outdated_api'))
+fail OutdatedApiError.new(:outdated_api, I18n.t('noise.outdated_api_error.outdated_api'))
 ```
 
 If you have to pass attributes some substitution into localized string, provide the second attribute as a hash:
@@ -79,7 +79,7 @@ fail BadRequestError.new(:unknown_fields, fields: 'nickname, phone')
 ```
 
 ```yaml
-spbtv_statics:
+noise:
   bad_request_error:
     unknown_fields: "Server does not know how to recognize these fields: %{fields}"
 ```
@@ -115,7 +115,7 @@ You can customize tabs to be shown on Bugsnag:
 ![Tab example](https://habrastorage.org/files/bd4/290/75c/bd429075c2604eeaa7ef39ae75fbffe2.png)
 
 ```ruby
-SpbtvStatics::Notification.extract(:api_client, ApiClientExtractor)
+Noise::Notification.extract(:api_client, ApiClientExtractor)
 
 class ApiClientExtractor
   # @param env [Hash]
@@ -139,19 +139,19 @@ end
 If you want to show link to Bugsnag error page on the error response, you have to configure Bugsnag project:
 
 ```ruby
-SpbtvStatics.config.bugsnag_project = 'spb-tv/rosing-api'
+Noise.config.bugsnag_project = 'spb-tv/rosing-api'
 ```
 
 To disable Bugsnag integration:
 
 ```ruby
-SpbtvStatics.config.bugsnag_enabled = false
+Noise.config.bugsnag_enabled = false
 ```
 
 Override error response format:
 
 ```ruby
-SpbtvStatics::ExceptionResponder.renderer = lambda do |error, status_code|
+Noise::ExceptionResponder.renderer = lambda do |error, status_code|
   {
     meta: {
       code: status_code,
@@ -175,10 +175,10 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 To release a new version,
 
 * update the version number in `version.rb`
-* run `gem build spbtv_statics.gemspec`,
+* run `gem build spbtv_noise.gemspec`,
 * push the `.gem` file to nexus `gem nexus path_to_gemfile.gem`
 
 ## Contributing
 
-Bug reports and pull requests are welcome at http://stash.mwm.local/projects/SS/repos/spbtv-statics.
+Bug reports and pull requests are welcome at http://stash.mwm.local/projects/SS/repos/spbtv-noise.
 

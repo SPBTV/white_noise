@@ -5,14 +5,14 @@ require 'active_model_serializers'
 
 require_relative 'public_error_serializer'
 
-module SpbtvStatics
+module Noise
   # Constructs error response (status, body)
   # @!attribute [rw] renderer
   #   @return [Proc<#as_json>] lambda should return any object responding to `#as_json`
   #   e.g. Hash.
   #
   #   @example
-  #     SpbtvStatics::ExceptionResponder.renderer = lambda do |error, status_code|
+  #     Noise::ExceptionResponder.renderer = lambda do |error, status_code|
   #       {
   #         meta: {
   #           code: status_code,

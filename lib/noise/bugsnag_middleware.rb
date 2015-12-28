@@ -1,6 +1,6 @@
 require_relative 'notification'
 
-module SpbtvStatics
+module Noise
   # Configures Bugsnag notification with our request-specific information.
   #
   class BugsnagMiddleware

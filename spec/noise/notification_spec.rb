@@ -1,8 +1,8 @@
-require 'spbtv_statics/notification'
+require 'noise/notification'
 require 'support/fixtures'
 require 'support/sleanup_notification'
 
-RSpec.describe SpbtvStatics::Notification do
+RSpec.describe Noise::Notification do
   describe '.register' do
     let(:severity) { described_class::ERROR }
 
@@ -57,7 +57,7 @@ RSpec.describe SpbtvStatics::Notification do
   let(:error_class) { TestError }
 
   before do
-    described_class.register(TestError, severity: SpbtvStatics::Notification::WARNING)
+    described_class.register(TestError, severity: Noise::Notification::WARNING)
   end
 
   let(:notification) { described_class.new(error_class.new(:error), env) }

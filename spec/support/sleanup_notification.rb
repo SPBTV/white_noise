@@ -1,11 +1,11 @@
-require 'spbtv_statics/notification'
+require 'noise/notification'
 
 RSpec.configure do |config|
   config.around do |example|
-    severities = SpbtvStatics::Notification.severities.dup
-    extractors = SpbtvStatics::Notification.extractors.dup
+    severities = Noise::Notification.severities.dup
+    extractors = Noise::Notification.extractors.dup
     example.run
-    SpbtvStatics::Notification.severities = severities
-    SpbtvStatics::Notification.extractors = extractors
+    Noise::Notification.severities = severities
+    Noise::Notification.extractors = extractors
   end
 end

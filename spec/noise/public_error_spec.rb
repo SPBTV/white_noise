@@ -1,9 +1,9 @@
-require 'spbtv_statics/public_error'
+require 'noise/public_error'
 
-RSpec.describe SpbtvStatics::PublicError do
+RSpec.describe Noise::PublicError do
   before(:all) do
     I18n.backend.store_translations(:en,
-                                    spbtv_statics: {
+                                    noise: {
                                       public_error: {
                                         message_without_options: 'bar',
                                         message_with_options: 'Opts: %{foo}, %{bar}'

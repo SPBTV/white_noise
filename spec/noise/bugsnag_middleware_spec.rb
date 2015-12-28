@@ -1,9 +1,9 @@
 require 'bugsnag'
-require 'spbtv_statics/bugsnag_middleware'
+require 'noise/bugsnag_middleware'
 require 'support/fixtures'
 require 'support/sleanup_notification'
 
-RSpec.describe SpbtvStatics::BugsnagMiddleware do
+RSpec.describe Noise::BugsnagMiddleware do
   let(:bugsnag) { double('bugsnag') }
   let(:ip_address) { '66.66.66.66' }
   let(:env) do
@@ -21,8 +21,8 @@ RSpec.describe SpbtvStatics::BugsnagMiddleware do
   subject(:middleware) { described_class.new(bugsnag) }
 
   before do
-    SpbtvStatics::Notification.extract(:user, UserExtractor)
-    SpbtvStatics::Notification.extract(:api_client, ApiClientExtractor)
+    Noise::Notification.extract(:user, UserExtractor)
+    Noise::Notification.extract(:api_client, ApiClientExtractor)
   end
 
   it 'adds information to bugsnag notification' do

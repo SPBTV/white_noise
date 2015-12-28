@@ -1,31 +1,27 @@
-require 'spbtv_statics/exceptions_app'
+require 'active_support/core_ext/hash/keys'
+require 'noise'
+require 'noise/exception_responder'
 require 'support/fixtures'
 require 'support/sleanup_notification'
 
-RSpec.describe SpbtvStatics::ExceptionsApp do
-  let(:content_type) { Mime::JSON }
-  let(:exception) { TestError.new(:bad_request, 'unknown error') }
-  let(:env) { { 'action_dispatch.exception' => exception } }
+RSpec.describe Noise::ExceptionResponder do
+  let(:error) { TestError.new(:bad_request, 'unknown error') }
 
-  before do
-    SpbtvStatics.config.bugsnag_project = 'spb-tv/rosing-api'
-  end
+  subject(:responder) { described_class.new(error) }
 
-  subject(:response) { described_class.new.call(env) }
-
-  describe 'http status code' do
-    subject(:http_code) { response[0] }
+  describe '#status_code' do
+    subject(:http_code) { responder.status_code }
     it { is_expected.to eq 400 }
   end
 
-  describe 'body' do
-    subject(:body) { JSON.parse(response[2][0], symbolize_names: true) }
+  describe '#body' do
+    subject(:body) { responder.body.deep_stringify_keys }
 
     let(:serialized_error) do
       {
         errors: [
           {
-            code: 'bad_request',
+            code: :bad_request,
             links: {
               about: {
                 href: 'https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=unknown%20error&filters[event.class][]=TestError'
@@ -42,6 +38,12 @@ RSpec.describe SpbtvStatics::ExceptionsApp do
       }
     end
 
-    it { is_expected.to eq serialized_error }
+    before do
+      Noise.config.bugsnag_project = 'spb-tv/rosing-api'
+    end
+
+    it 'serializes errors to response body' do
+      is_expected.to eq serialized_error.deep_stringify_keys
+    end
   end
 end

@@ -1,9 +1,9 @@
-require 'spbtv_statics/version'
-require 'spbtv_statics/public_error'
+require 'noise/version'
+require 'noise/public_error'
 require 'active_support/configurable'
 
 #
-module SpbtvStatics
+module Noise
   include ActiveSupport::Configurable
 
   config.bugsnag_enabled = true

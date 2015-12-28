@@ -1,11 +1,11 @@
-require 'spbtv_statics/notification'
-require 'spbtv_statics/exception_responder'
+require 'noise/notification'
+require 'noise/exception_responder'
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/string/inflections'
 require 'i18n'
 
 #
-module SpbtvStatics
+module Noise
   # Base class for all api level errors
   #
   class PublicError < StandardError
@@ -23,7 +23,7 @@ module SpbtvStatics
     #   @param message [Hash{Symbol => any}]
     #   @example
     #     Given the following I18n key exists:
-    #       spbtv_statics:
+    #       noise:
     #         public_error:
     #           unknown_fields: "Server does not know how to recognize these fields: %{fields}"
     #
@@ -44,7 +44,7 @@ module SpbtvStatics
 
     # @return [String]
     def message
-      @message.presence || I18n.t("spbtv_statics.#{self.class.name.demodulize.underscore}.#{@message_id}", @options)
+      @message.presence || I18n.t("noise.#{self.class.name.demodulize.underscore}.#{@message_id}", @options)
     end
 
     # @return [String]
@@ -56,14 +56,14 @@ module SpbtvStatics
       # @param status [Symbol, Integer]
       #   @see http://apidock.com/rails/ActionController/Base/render#254-List-of-status-codes-and-their-symbols
       # @param severity [Symbol, Integer]
-      #   @see `SpbtvStatics::Notification::SEVERITIES`
+      #   @see `Noise::Notification::SEVERITIES`
       #
       # @example
       #   GoneError.register_as(:gone, :info)
       #
       def register_as(status, severity:)
-        SpbtvStatics::ExceptionResponder.register(name, status: status)
-        SpbtvStatics::Notification.register(name, severity: severity)
+        Noise::ExceptionResponder.register(name, status: status)
+        Noise::Notification.register(name, severity: severity)
       end
     end
   end

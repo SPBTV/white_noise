@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'spbtv_statics/version'
+require 'noise/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'spbtv_statics'
-  spec.version       = SpbtvStatics::VERSION
+  spec.name          = 'spbtv_noise'
+  spec.version       = Noise::VERSION
   spec.authors       = ['Tema Bolshakov']
   spec.email         = ['abolshakov@spbtv.com']
 

@@ -1,6 +1,6 @@
 require_relative 'exception_responder'
 
-module SpbtvStatics
+module Noise
   # Custom rails exception app to render all API level errors as JSON.
   #
   # Why it needed: in case we use default ActionController's `rescue_from`

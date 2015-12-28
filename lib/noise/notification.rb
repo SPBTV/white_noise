@@ -4,7 +4,7 @@ require 'active_support/hash_with_indifferent_access'
 require 'active_support/concern'
 require 'action_dispatch/http/request'
 
-module SpbtvStatics
+module Noise
   # Provides detailed information about exception
   # and request context.
   #
