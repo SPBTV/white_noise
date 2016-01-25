@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Noise::VERSION
   spec.authors       = ['Tema Bolshakov']
   spec.email         = ['abolshakov@spbtv.com']
-
+  spec.license       = 'SPB TV Proprietary'
   spec.summary       = 'Defines middleware which renders exceptions and notifies Bugsnag.'
   spec.homepage      = 'http://stash.mwm.local/projects/SS/repos/spbtv-statics'
 
