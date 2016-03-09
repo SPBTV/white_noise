@@ -25,7 +25,7 @@ module Noise
   class ExceptionResponder
     cattr_accessor :renderer, instance_writer: false
     self.renderer = lambda do |error, status_code|
-      ActiveModel::SerializableResource.serialize(
+      ActiveModel::SerializableResource.new(
         Array(error),
         each_serializer: PublicErrorSerializer,
         adapter: :json,
