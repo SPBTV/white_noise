@@ -1,4 +1,5 @@
 require_relative 'exception_responder'
+require 'action_dispatch'
 
 module Noise
   # Custom rails exception app to render all API level errors as JSON.
