@@ -27,7 +27,7 @@ module Noise
   class ExceptionResponder
     extend Uber::InheritableAttr
 
-    inheritable_attr :renderer, instance_writer: false
+    inheritable_attr :renderer
     self.renderer = lambda do |error, status_code|
       ActiveModel::SerializableResource.new(
         Array(error),
