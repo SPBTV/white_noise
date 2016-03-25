@@ -46,4 +46,15 @@ RSpec.describe Noise::ExceptionResponder do
       is_expected.to eq serialized_error.deep_stringify_keys
     end
   end
+
+  describe '#headers' do
+    subject(:headers) { responder.headers.deep_stringify_keys }
+
+    it 'default headers' do
+      expect(headers).to include(
+        'Content-Type' => 'application/json; charset=utf-8',
+        'Content-Length' => '343'
+      )
+    end
+  end
 end
