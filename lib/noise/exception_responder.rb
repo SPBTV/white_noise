@@ -52,7 +52,15 @@ module Noise
 
     # @return [Hash] JSON-serializable body
     def body
-      renderer.call(@error, status_code).as_json
+      @body ||= renderer.call(@error, status_code).as_json.to_json
+    end
+
+    # @return [Hash] headers
+    def headers
+      {
+        'Content-Type' => "#{Mime::JSON}; charset=#{ActionDispatch::Response.default_charset}",
+        'Content-Length' => body.bytesize.to_s
+      }
     end
 
     # @return [Integer] HTTP status code

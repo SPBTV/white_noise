@@ -15,13 +15,13 @@ RSpec.describe Noise::ExceptionResponder do
   end
 
   describe '#body' do
-    subject(:body) { responder.body.deep_stringify_keys }
+    subject(:body) { JSON.parse(responder.body).deep_stringify_keys }
 
     let(:serialized_error) do
       {
         errors: [
           {
-            code: :bad_request,
+            code: 'bad_request',
             links: {
               about: {
                 href: 'https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=unknown%20error&filters[event.class][]=TestError'
