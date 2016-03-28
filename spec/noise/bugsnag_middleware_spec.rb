@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'bugsnag'
 require 'noise/bugsnag_middleware'
 require 'support/fixtures'

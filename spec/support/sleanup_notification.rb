@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'noise/notification'
 
 RSpec.configure do |config|

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'noise/public_error'
 require 'active_support/core_ext/hash/slice'
 

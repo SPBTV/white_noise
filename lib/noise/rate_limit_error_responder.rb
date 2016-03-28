@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'noise/exception_responder'
 
 module Noise

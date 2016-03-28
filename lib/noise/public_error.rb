@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'noise/notification'
 require 'noise/exception_responder'
 require 'active_support/core_ext/object/blank'

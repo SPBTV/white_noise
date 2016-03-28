@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'active_support/core_ext/module/attribute_accessors'
 require 'active_support/core_ext/hash/except'
 require 'active_support/hash_with_indifferent_access'
@@ -12,11 +13,11 @@ module Noise
     WARNING = :warning
     INFO = :info
     ERROR = :error
-    SEVERITIES = [WARNING, INFO, ERROR]
+    SEVERITIES = [WARNING, INFO, ERROR].freeze
 
     cattr_accessor :severities, instance_writer: false
     self.severities = Hash.new(ERROR)
-    severities.merge!('ActiveRecord::RecordNotFound' => INFO)
+    severities['ActiveRecord::RecordNotFound'] = INFO
 
     cattr_accessor :extractors, instance_writer: false
     self.extractors = HashWithIndifferentAccess.new

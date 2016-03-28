@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 source 'http://lrepos.spbtv.com:8081/nexus/content/repositories/mirrored-rubygems/'
 source 'http://lrepos.spbtv.com:8081/nexus/content/repositories/private-rubygems/'
 

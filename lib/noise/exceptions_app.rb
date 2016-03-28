@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Noise
   # Custom rails exception app to render all API level errors as JSON.
   #

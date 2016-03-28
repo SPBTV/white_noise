@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'active_support/core_ext/hash/keys'
 require 'noise'
 require 'noise/rate_limit_error'

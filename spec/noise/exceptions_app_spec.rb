@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'noise/exceptions_app'
 require 'support/fixtures'
 require 'support/sleanup_notification'

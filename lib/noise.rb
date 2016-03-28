@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'noise/version'
 require 'noise/public_error'
 require 'noise/rate_limit_error'
