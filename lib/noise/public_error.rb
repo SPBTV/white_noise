@@ -10,17 +10,17 @@ module Noise
   #
   class PublicError < StandardError
     attr_reader :message_id
-    attr_reader :message_options
+    attr_reader :options
 
     # @overload new(message_id, message)
     #   Instantiate error with given message_id and message
     #   @param message_id [Symbol]
-    #   @param message [String]
+    #   @param message_or_options [String]
     # @overload new(message_id, options)
     #   Instantiate error with given message_id and options.
     #   Options would be passed to I18n key
     #   @param message_id [Symbol]
-    #   @param message [Hash{Symbol => any}]
+    #   @param message_or_options [Hash{Symbol => any}]
     #   @example
     #     Given the following I18n key exists:
     #       noise:
@@ -50,6 +50,11 @@ module Noise
     # @return [String]
     def inspect
       "#<#{self.class}: #{message}>"
+    end
+
+    # @return [ExceptionResponder]
+    def responder
+      ExceptionResponder.new(self)
     end
 
     class << self

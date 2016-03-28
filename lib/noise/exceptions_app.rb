@@ -1,6 +1,3 @@
-require_relative 'exception_responder'
-require 'action_dispatch'
-
 module Noise
   # Custom rails exception app to render all API level errors as JSON.
   #
@@ -12,21 +9,9 @@ module Noise
   class ExceptionsApp
     def call(env)
       error = env['action_dispatch.exception']
-      responder = ExceptionResponder.new(error)
-      render(responder.status_code, Mime::JSON, responder.body.to_json)
-    end
+      responder = error.responder
 
-    private
-
-    def render(status, content_type, body)
-      [
-        status,
-        {
-          'Content-Type' => "#{content_type}; charset=#{ActionDispatch::Response.default_charset}",
-          'Content-Length' => body.bytesize.to_s
-        },
-        [body]
-      ]
+      [responder.status_code, responder.headers, [responder.body]]
     end
   end
 end

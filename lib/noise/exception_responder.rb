@@ -1,4 +1,6 @@
 require 'rack/utils'
+require 'uber/inheritable_attr'
+require 'action_dispatch'
 require 'action_dispatch/middleware/exception_wrapper'
 require 'active_support/core_ext/object/json'
 require 'active_model_serializers'
@@ -23,7 +25,9 @@ module Noise
   #     end
   #
   class ExceptionResponder
-    cattr_accessor :renderer, instance_writer: false
+    extend Uber::InheritableAttr
+
+    inheritable_attr :renderer
     self.renderer = lambda do |error, status_code|
       ActiveModel::SerializableResource.new(
         Array(error),
@@ -34,6 +38,7 @@ module Noise
         scope: { http_status: status_code }
       )
     end
+    delegate :renderer, to: :class
 
     class << self
       # @param error [StandardError]
@@ -52,7 +57,15 @@ module Noise
 
     # @return [Hash] JSON-serializable body
     def body
-      renderer.call(@error, status_code).as_json
+      @body ||= renderer.call(@error, status_code).as_json.to_json
+    end
+
+    # @return [Hash] headers
+    def headers
+      {
+        'Content-Type' => "#{::Mime::JSON}; charset=#{ActionDispatch::Response.default_charset}",
+        'Content-Length' => body.bytesize.to_s
+      }
     end
 
     # @return [Integer] HTTP status code
