@@ -15,7 +15,7 @@ RSpec.describe Noise::ExceptionsApp do
           code: 'bad_request',
           links: {
             about: {
-              href: "https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=#{error_message}&filters[event.class][]=#{exception.class.name}"
+              href: "https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=#{error_message}&filters[event.class][]=#{exception.class.name}" # rubocop:disable Metrics/LineLength
             }
           },
           object: 'error',
