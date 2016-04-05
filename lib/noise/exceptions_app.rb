@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require_relative 'exception_responder'
+
 module Noise
   # Custom rails exception app to render all API level errors as JSON.
   #
@@ -10,7 +12,7 @@ module Noise
   class ExceptionsApp
     def call(env)
       error = env['action_dispatch.exception']
-      responder = error.responder
+      responder = ExceptionResponder[error]
 
       [responder.status_code, responder.headers, [responder.body]]
     end

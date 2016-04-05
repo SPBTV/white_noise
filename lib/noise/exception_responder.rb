@@ -49,16 +49,30 @@ module Noise
       def register(error, status:)
         ActionDispatch::ExceptionWrapper.rescue_responses[error.to_s] = status
       end
+
+      # Return exceptions responder for given error
+      # @param error [StandardError]
+      # @return [ExceptionResponder]
+      #
+      def [](error)
+        if error.is_a?(PublicError)
+          error.responder
+        else
+          new(error)
+        end
+      end
     end
 
     # @param error [StandardError]
     def initialize(error)
       @error = error
     end
+    attr_reader :error
+    protected :error
 
     # @return [Hash] JSON-serializable body
     def body
-      @body ||= renderer.call(@error, status_code).as_json.to_json
+      @body ||= renderer.call(error, status_code).as_json.to_json
     end
 
     # @return [Hash] headers
@@ -71,9 +85,13 @@ module Noise
 
     # @return [Integer] HTTP status code
     def status_code
-      status_symbol = ActionDispatch::ExceptionWrapper.rescue_responses[@error.class.name]
+      status_symbol = ActionDispatch::ExceptionWrapper.rescue_responses[error.class.name]
       # calls `status_code` from Rack::Utils
       Rack::Utils.status_code(status_symbol)
+    end
+
+    def ==(other)
+      self.class == other.class && error == other.error
     end
   end
 end
