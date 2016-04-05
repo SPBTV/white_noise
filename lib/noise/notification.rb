@@ -17,7 +17,6 @@ module Noise
 
     cattr_accessor :severities, instance_writer: false
     self.severities = Hash.new(ERROR)
-    severities['ActiveRecord::RecordNotFound'] = INFO
 
     cattr_accessor :extractors, instance_writer: false
     self.extractors = HashWithIndifferentAccess.new

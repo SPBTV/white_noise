@@ -54,6 +54,7 @@ module Noise
     end
 
     # @return [ExceptionResponder]
+    # @api private
     def responder
       ExceptionResponder.new(self)
     end
