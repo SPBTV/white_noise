@@ -1,5 +1,7 @@
 AllCops:
   TargetRubyVersion: 2.3
+  Exclude:
+    - tmp/**/*
 
 inherit_gem:
   spbtv_code_style: .rubocop.yml

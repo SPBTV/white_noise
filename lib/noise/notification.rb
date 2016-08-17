@@ -72,14 +72,27 @@ module Noise
 
     # @return [Hash] User info
     def user_info
-      user = {
-        'id' => ActionDispatch::Request.new(@env).remote_ip,
-      }
-
+      user = default_user_info
       if extractors.key?('user')
         user.merge!(extractors['user'].new.call(@env))
       end
-      user
+      if user.key?('name')
+        fail '`name` key is reserved to identify error itself'
+      else
+        user.merge!('name' => request.uuid)
+      end
+    end
+
+    private
+
+    def request
+      @request ||= ActionDispatch::Request.new(@env)
+    end
+
+    def default_user_info
+      {
+        'id' => request.remote_ip,
+      }
     end
   end
 end

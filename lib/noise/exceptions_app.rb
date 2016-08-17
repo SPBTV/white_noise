@@ -13,6 +13,7 @@ module Noise
     def call(env)
       error = env['action_dispatch.exception']
       responder = ExceptionResponder[error]
+      responder.id = env['action_dispatch.request_id']
 
       [responder.status_code, responder.headers, [responder.body]]
     end
