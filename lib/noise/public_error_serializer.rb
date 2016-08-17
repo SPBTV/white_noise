@@ -35,8 +35,8 @@ module Noise
     def links
       {
         'about' => {
-          'href' => bugsnag_search_url.to_s
-        }
+          'href' => bugsnag_search_url.to_s,
+        },
       }
     end
 

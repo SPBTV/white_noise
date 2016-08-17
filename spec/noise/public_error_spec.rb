@@ -7,9 +7,9 @@ RSpec.describe Noise::PublicError do
                                     noise: {
                                       public_error: {
                                         message_without_options: 'bar',
-                                        message_with_options: 'Opts: %{foo}, %{bar}'
-                                      }
-                                    }
+                                        message_with_options: 'Opts: %{foo}, %{bar}',
+                                      },
+                                    },
                                    )
   end
 

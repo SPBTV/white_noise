@@ -55,17 +55,17 @@ RSpec.describe Noise::ExceptionResponder do
             code: 'bad_request',
             links: {
               about: {
-                href: 'https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=unknown%20error&filters[event.class][]=TestError'
-              }
+                href: 'https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=unknown%20error&filters[event.class][]=TestError',
+              },
             },
             object: 'error',
             title: 'unknown error',
-            fallback_message: nil
-          }
+            fallback_message: nil,
+          },
         ],
         meta: {
-          status: 400
-        }
+          status: 400,
+        },
       }
     end
 
@@ -84,7 +84,7 @@ RSpec.describe Noise::ExceptionResponder do
     it 'default headers' do
       expect(headers).to include(
         'Content-Type' => 'application/json; charset=utf-8',
-        'Content-Length' => '343'
+        'Content-Length' => '343',
       )
     end
   end

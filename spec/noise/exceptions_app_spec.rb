@@ -16,16 +16,16 @@ RSpec.describe Noise::ExceptionsApp do
           links: {
             about: {
               href: "https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=#{error_message}&filters[event.class][]=#{exception.class.name}" # rubocop:disable Metrics/LineLength
-            }
+            },
           },
           object: 'error',
           title: error_message,
-          fallback_message: nil
-        }
+          fallback_message: nil,
+        },
       ],
       meta: {
-        status: 400
-      }
+        status: 400,
+      },
     }
   end
 

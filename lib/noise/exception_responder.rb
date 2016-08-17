@@ -36,7 +36,7 @@ module Noise
         adapter: :json,
         root: 'errors',
         meta: { 'status' => status_code },
-        scope: { http_status: status_code }
+        scope: { http_status: status_code },
       )
     end
     delegate :renderer, to: :class
@@ -79,7 +79,7 @@ module Noise
     def headers
       {
         'Content-Type' => "#{::Mime::JSON}; charset=#{ActionDispatch::Response.default_charset}",
-        'Content-Length' => body.bytesize.to_s
+        'Content-Length' => body.bytesize.to_s,
       }
     end
 

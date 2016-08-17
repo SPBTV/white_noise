@@ -17,7 +17,7 @@ end
 class UserExtractor
   def call(env)
     {
-      'name' => env['user_name']
+      'name' => env['user_name'],
     }
   end
 end

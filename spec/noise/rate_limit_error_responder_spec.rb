@@ -19,7 +19,7 @@ RSpec.describe Noise::RateLimitErrorResponder do
 
     it 'default headers' do
       expect(headers).to include(
-        'Retry-After' => '10'
+        'Retry-After' => '10',
       )
     end
   end

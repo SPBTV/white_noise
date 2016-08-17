@@ -73,7 +73,7 @@ module Noise
     # @return [Hash] User info
     def user_info
       user = {
-        'id' => ActionDispatch::Request.new(@env).remote_ip
+        'id' => ActionDispatch::Request.new(@env).remote_ip,
       }
 
       if extractors.key?('user')

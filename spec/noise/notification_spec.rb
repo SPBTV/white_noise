@@ -51,7 +51,7 @@ RSpec.describe Noise::Notification do
       'HTTP_X_FORWARDED_FOR' => ip_address,
       'client_id' => 'android',
       'client_version' => '1.0.0',
-      'user_name' => 'Papadopoulos'
+      'user_name' => 'Papadopoulos',
     }
   end
 

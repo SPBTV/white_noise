@@ -3,3 +3,7 @@ AllCops:
 
 inherit_gem:
   spbtv_code_style: .rubocop.yml
+
+Style/Documentation:
+  Exclude:
+    - spec/support/fixtures.rb
