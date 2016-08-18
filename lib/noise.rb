@@ -7,6 +7,10 @@ require 'active_support/configurable'
 #
 module Noise
   include ActiveSupport::Configurable
+  extend ActiveSupport::Autoload
+
+  autoload :ErrorSerializer
+  autoload :PublicErrorSerializer
 
   config.bugsnag_enabled = true
   config.bugsnag_project = nil

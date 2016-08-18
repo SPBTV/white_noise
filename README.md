@@ -41,7 +41,7 @@ Status: 410 Gone
 
 {
   "errors": [{
-    "id": null,
+    "id": "b55eacaf-c3db-4c5c-80c6-214149eb14c2",
     "code": "outdated_api",
     "title": "API v0 is no longer active. Please migrate to API v1",
     "status": 410,

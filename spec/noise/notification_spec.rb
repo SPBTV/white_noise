@@ -46,12 +46,14 @@ RSpec.describe Noise::Notification do
   end
 
   let(:ip_address) { '66.66.66.66' }
+  let(:request_id) { SecureRandom.uuid }
   let(:env) do
     {
       'HTTP_X_FORWARDED_FOR' => ip_address,
       'client_id' => 'android',
       'client_version' => '1.0.0',
-      'user_name' => 'Papadopoulos',
+      'user_email' => 'papadopoulos@example.com',
+      'action_dispatch.request_id' => request_id,
     }
   end
 
@@ -92,14 +94,36 @@ RSpec.describe Noise::Notification do
   end
 
   describe '#user_info' do
-    before do
-      described_class.extract(:user, UserExtractor)
+    def extractor(&user_info)
+      double('extractor', new: user_info)
     end
 
-    subject { notification.user_info }
+    subject(:user_info) { notification.user_info }
 
-    it 'contains extracted data and id' do
-      is_expected.to eq('id' => '66.66.66.66', 'name' => 'Papadopoulos')
+    context 'when extractor adds `name`' do
+      before do
+        described_class.extract(:user, extractor { { 'name' => 'Papadopoulos' } })
+      end
+
+      it 'fails with error' do
+        expect { user_info }.to raise_error('`name` key is reserved to identify error itself')
+      end
+    end
+
+    context 'extractor may override `id` and add `email`' do
+      before do
+        described_class.extract(:user, extractor { { 'id' => 42, 'email' => 'papadopoulos@example.com' } })
+      end
+
+      it 'contains extracted data and id' do
+        is_expected.to include('id' => 42, 'email' => 'papadopoulos@example.com')
+      end
+    end
+
+    context 'without extractors' do
+      it 'contains id and name' do
+        is_expected.to include('id' => '66.66.66.66', 'name' => request_id)
+      end
     end
   end
 end

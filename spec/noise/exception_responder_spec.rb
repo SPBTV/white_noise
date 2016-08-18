@@ -52,10 +52,11 @@ RSpec.describe Noise::ExceptionResponder do
       {
         errors: [
           {
+            id: nil,
             code: 'bad_request',
             links: {
               about: {
-                href: 'https://bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[error.status][]=open&filters[event.message][]=unknown%20error&filters[event.class][]=TestError',
+                href: '',
               },
             },
             object: 'error',
@@ -84,7 +85,7 @@ RSpec.describe Noise::ExceptionResponder do
     it 'default headers' do
       expect(headers).to include(
         'Content-Type' => 'application/json; charset=utf-8',
-        'Content-Length' => '343',
+        'Content-Length' => '162',
       )
     end
   end

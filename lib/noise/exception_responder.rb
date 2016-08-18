@@ -6,8 +6,6 @@ require 'action_dispatch/middleware/exception_wrapper'
 require 'active_support/core_ext/object/json'
 require 'active_model_serializers'
 
-require_relative 'public_error_serializer'
-
 module Noise
   # Constructs error response (status, body)
   # @!attribute [rw] renderer
@@ -29,14 +27,15 @@ module Noise
     extend Uber::InheritableAttr
 
     inheritable_attr :renderer
-    self.renderer = lambda do |error, status_code|
+    self.renderer = lambda do |error, status_code, id|
+      serializer = error.is_a?(PublicError) ? PublicErrorSerializer : ErrorSerializer
       ActiveModel::SerializableResource.new(
         Array(error),
-        each_serializer: PublicErrorSerializer,
+        each_serializer: serializer,
         adapter: :json,
         root: 'errors',
         meta: { 'status' => status_code },
-        scope: { http_status: status_code },
+        scope: { http_status: status_code, id: id },
       )
     end
     delegate :renderer, to: :class
@@ -70,9 +69,12 @@ module Noise
     attr_reader :error
     protected :error
 
+    # @return [String] error identifier, UUID
+    attr_accessor :id
+
     # @return [Hash] JSON-serializable body
     def body
-      @body ||= renderer.call(error, status_code).as_json.to_json
+      @body ||= renderer.call(error, status_code, id).as_json.to_json
     end
 
     # @return [Hash] headers
