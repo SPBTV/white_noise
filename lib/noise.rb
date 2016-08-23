@@ -15,5 +15,5 @@ module Noise
 
   config.bugsnag_enabled = true
   config.bugsnag_project = nil
-  config.exception_renderer_factory = ->(env) { ExceptionRenderer.new(env) }
+  config.exception_renderer = ExceptionRenderer
 end

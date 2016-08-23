@@ -26,10 +26,12 @@ module Noise
     end
 
     # @param env
-    def initialize(env, exception_renderer)
+    # @param exception_renderer_class
+    def initialize(env, exception_renderer_class = ExceptionRenderer)
       @env = env
-      @exception_renderer = exception_renderer
+      @exception_renderer = exception_renderer_class.new(env)
     end
+
     attr_reader :env, :exception_renderer
     protected :env
 

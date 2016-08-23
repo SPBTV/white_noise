@@ -11,7 +11,7 @@ RSpec.describe Noise::RateLimitErrorResponder do
       'action_dispatch.exception' => error,
     }
   end
-  subject(:responder) { described_class.new(env, Noise::ExceptionRenderer.new(env)) }
+  subject(:responder) { described_class.new(env, Noise::ExceptionRenderer) }
 
   describe '#status_code' do
     subject(:http_code) { responder.status_code }
