@@ -55,8 +55,8 @@ module Noise
 
     # @return [ExceptionResponder]
     # @api private
-    def responder
-      ExceptionResponder.new(self)
+    def responder_class
+      ExceptionResponder
     end
 
     class << self

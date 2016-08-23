@@ -9,37 +9,12 @@ require 'active_model_serializers'
 module Noise
   # Constructs error response (status, body)
   # @!attribute [rw] renderer
-  #   @return [Proc<#as_json>] lambda should return any object responding to `#as_json`
-  #   e.g. Hash.
+  #   @return [Proc<#String>]
   #
   #   @example
-  #     Noise::ExceptionResponder.renderer = lambda do |error, status_code|
-  #       {
-  #         meta: {
-  #           code: status_code,
-  #           error_id: error.message_id,
-  #           error_description: error.message
-  #         }
-  #       }
-  #     end
+
   #
   class ExceptionResponder
-    extend Uber::InheritableAttr
-
-    inheritable_attr :renderer
-    self.renderer = lambda do |error, status_code, id|
-      serializer = error.is_a?(PublicError) ? PublicErrorSerializer : ErrorSerializer
-      ActiveModel::SerializableResource.new(
-        Array(error),
-        each_serializer: serializer,
-        adapter: :json,
-        root: 'errors',
-        meta: { 'status' => status_code },
-        scope: { http_status: status_code, id: id },
-      )
-    end
-    delegate :renderer, to: :class
-
     class << self
       # @param error [StandardError]
       # @param status [Integer, Symbol] HTTP status to use for response
@@ -48,33 +23,19 @@ module Noise
       def register(error, status:)
         ActionDispatch::ExceptionWrapper.rescue_responses[error.to_s] = status
       end
-
-      # Return exceptions responder for given error
-      # @param error [StandardError]
-      # @return [ExceptionResponder]
-      #
-      def [](error)
-        if error.is_a?(PublicError)
-          error.responder
-        else
-          new(error)
-        end
-      end
     end
 
-    # @param error [StandardError]
-    def initialize(error)
-      @error = error
+    # @param env
+    def initialize(env, exception_renderer)
+      @env = env
+      @exception_renderer = exception_renderer
     end
-    attr_reader :error
-    protected :error
-
-    # @return [String] error identifier, UUID
-    attr_accessor :id
+    attr_reader :env, :exception_renderer
+    protected :env
 
     # @return [Hash] JSON-serializable body
     def body
-      @body ||= renderer.call(error, status_code, id).as_json.to_json
+      @body ||= exception_renderer.render(self)
     end
 
     # @return [Hash] headers
@@ -92,8 +53,8 @@ module Noise
       Rack::Utils.status_code(status_symbol)
     end
 
-    def ==(other)
-      self.class == other.class && error == other.error
+    def error
+      env['action_dispatch.exception']
     end
   end
 end

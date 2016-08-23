@@ -6,8 +6,12 @@ require 'noise/rate_limit_error_responder'
 
 RSpec.describe Noise::RateLimitErrorResponder do
   let(:error) { Noise::RateLimitError.new(:too_many_requests, retry_after: 10) }
-
-  subject(:responder) { described_class.new(error) }
+  let(:env) do
+    {
+      'action_dispatch.exception' => error,
+    }
+  end
+  subject(:responder) { described_class.new(env, Noise::ExceptionRenderer.new(env)) }
 
   describe '#status_code' do
     subject(:http_code) { responder.status_code }

@@ -15,7 +15,7 @@ gem 'noise', require: 'noise/railtie'
 
 ## Usage
 
-Exception subleased from `PublicError` may be registered and rendered as specific HTTP errors:
+Exception subclasses from `PublicError` may be registered and rendered as specific HTTP errors:
 
 ```ruby
 GoneError = Class.new(PublicError)
@@ -145,15 +145,18 @@ Noise.config.bugsnag_enabled = false
 Override error response format:
 
 ```ruby
-Noise::ExceptionResponder.renderer = lambda do |error, status_code|
-  {
-    meta: {
-      code: status_code,
-      error_id: error.message_id,
-      error_description: error.message
+class ApplicationRenderer < ExceptionRenderer
+  def render(responder)
+    {
+      meta: {
+        code: responder.status_code,
+        error_id: error_id,
+        error_description: error.message
+      }
     }
-  }
+  end
 end
+Rails.application.config.exceptions_app = Noise::ExceptionsApp.new(->(env) { ApplicationRenderer.new(env) })
 ```
 
 ## Best Practices
