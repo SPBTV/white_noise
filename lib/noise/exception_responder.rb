@@ -8,12 +8,6 @@ require 'active_model_serializers'
 
 module Noise
   # Constructs error response (status, body)
-  # @!attribute [rw] renderer
-  #   @return [Proc<#String>]
-  #
-  #   @example
-
-  #
   class ExceptionResponder
     class << self
       # @param error [StandardError]
@@ -25,11 +19,11 @@ module Noise
       end
     end
 
-    # @param env
-    # @param exception_renderer_class
-    def initialize(env, exception_renderer_class = ExceptionRenderer)
+    # @param env [Hash] rack env
+    # @param exception_renderer [ExceptionRenderer]
+    def initialize(env, exception_renderer = Noise.config.exception_renderer.new(env))
       @env = env
-      @exception_renderer = exception_renderer_class.new(env)
+      @exception_renderer = exception_renderer
     end
 
     attr_reader :env, :exception_renderer

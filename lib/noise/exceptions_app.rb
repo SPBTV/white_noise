@@ -21,7 +21,7 @@ module Noise
     def build_responder(env)
       error = env['action_dispatch.exception']
       responder_class = error.respond_to?(:responder_class) ? error.responder_class : ExceptionResponder
-      responder_class.new(env, Noise.config.exception_renderer)
+      responder_class.new(env)
     end
   end
 end

@@ -7,7 +7,7 @@ require 'support/sleanup_notification'
 
 RSpec.describe Noise::ExceptionResponder do
   let(:error_id) { SecureRandom.uuid }
-  subject(:responder) { described_class.new(env, Noise::ExceptionRenderer) }
+  subject(:responder) { described_class.new(env) }
 
   before do
     Noise.config.bugsnag_project = 'spb-tv/rosing-api'
