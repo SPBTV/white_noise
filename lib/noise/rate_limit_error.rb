@@ -17,8 +17,8 @@ module Noise
       @retry_after = retry_after
     end
 
-    def responder
-      RateLimitErrorResponder.new(self)
+    def responder_class
+      RateLimitErrorResponder
     end
   end
 end

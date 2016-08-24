@@ -10,8 +10,10 @@ module Noise
   extend ActiveSupport::Autoload
 
   autoload :ErrorSerializer
+  autoload :ExceptionRenderer
   autoload :PublicErrorSerializer
 
   config.bugsnag_enabled = true
   config.bugsnag_project = nil
+  config.exception_renderer = ExceptionRenderer
 end

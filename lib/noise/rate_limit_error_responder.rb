@@ -8,7 +8,7 @@ module Noise
     # @return [Hash]
     def headers
       super.merge(
-        'Retry-After' => @error.retry_after.to_s,
+        'Retry-After' => error.retry_after.to_s,
       )
     end
   end
