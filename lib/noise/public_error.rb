@@ -117,5 +117,9 @@ module Noise
 
   # 503
   ServiceUnavailableError = Class.new(PublicError)
-  ServiceUnavailableError.register_as :service_unavailable, severity: :error
+  ServiceUnavailableError.register_as :service_unavailable, severity: :warning
+
+  # 504
+  GatewayTimeoutError = Class.new(PublicError)
+  GatewayTimeoutError.register_as :gateway_timeout, severity: :warning
 end
