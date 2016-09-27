@@ -114,4 +114,8 @@ module Noise
     end
   end
   UnprocessableEntityError.register_as :unprocessable_entity, severity: :info
+
+  # 503
+  ServiceUnavailableError = Class.new(PublicError)
+  ServiceUnavailableError.register_as :service_unavailable, severity: :error
 end
