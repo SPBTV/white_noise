@@ -5,39 +5,56 @@ require 'support/fixtures'
 require 'support/sleanup_notification'
 
 RSpec.describe Noise::BugsnagMiddleware do
-  let(:bugsnag) { double('bugsnag') }
-  let(:ip_address) { '66.66.66.66' }
-  let(:request_id) { SecureRandom.uuid }
-  let(:env) do
-    {
-      'HTTP_X_FORWARDED_FOR' => ip_address,
-      'client_id' => 'android',
-      'client_version' => '1.0.0',
-      'user_email' => 'papadopoulos@example.com',
-      'action_dispatch.request_id' => request_id,
-    }
-  end
-  let(:error) { RuntimeError.new('oops') }
+  subject(:middleware) { ->(bugsnag) { described_class.new(bugsnag.to_proc).call(bugsnag_notification) } }
   let(:bugsnag_notification) { Bugsnag::Notification.new(error, Bugsnag::Configuration.new) }
-  before { bugsnag_notification.request_data[:rack_env] = env }
-
-  subject(:middleware) { described_class.new(bugsnag) }
+  let(:error) { RuntimeError.new('oops') }
 
   before do
     Noise::Notification.extract(:user, UserExtractor)
     Noise::Notification.extract(:api_client, ApiClientExtractor)
   end
 
-  it 'adds information to bugsnag notification' do
-    expect(bugsnag).to receive(:call) do |notification|
-      expect(notification.user).to eq(
-        'id' => '66.66.66.66',
-        'email' => 'papadopoulos@example.com',
-        'name' => request_id,
-      )
-      expect(notification.meta_data[:api_client]).to eq('client_id' => 'android', 'client_version' => '1.0.0')
-      expect(notification.severity).to eq('error')
+  context 'rack env is present' do
+    around do |e|
+      Bugsnag.configuration.set_request_data(:rack_env, env)
+      e.run
+      Bugsnag.configuration.clear_request_data
     end
-    middleware.call(bugsnag_notification)
+    let(:env) do
+      {
+        'HTTP_X_FORWARDED_FOR' => ip_address,
+        'client_id' => 'android',
+        'client_version' => '1.0.0',
+        'user_email' => 'papadopoulos@example.com',
+        'action_dispatch.request_id' => request_id,
+      }
+    end
+    let(:ip_address) { '66.66.66.66' }
+    let(:request_id) { SecureRandom.uuid }
+
+    it 'adds information to bugsnag notification' do
+      is_expected.to yield_with_args(
+        have_attributes(
+          user: {
+            'email' => 'papadopoulos@example.com',
+            'name' => request_id,
+          },
+          meta_data: include(api_client: { 'client_id' => 'android', 'client_version' => '1.0.0' }),
+          severity: 'error',
+        ),
+      )
+    end
+  end
+
+  context 'rack env is not present' do
+    it do
+      is_expected.to yield_with_args(
+        have_attributes(
+          user: {},
+          meta_data: include(api_client: {}),
+          severity: 'error',
+        ),
+      )
+    end
   end
 end

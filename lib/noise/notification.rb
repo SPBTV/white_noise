@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'active_support/core_ext/hash/transform_values'
 require 'active_support/core_ext/module/attribute_accessors'
 require 'active_support/core_ext/hash/except'
 require 'active_support/hash_with_indifferent_access'
@@ -60,8 +61,8 @@ module Noise
 
     # @return [{String, Any}]
     def to_hash
-      extractors.except('user').each_with_object({}) do |(key, extractor), metadata|
-        metadata[key] = extractor.new.call(@env)
+      extractors.except('user').transform_values do |extractor|
+        extractor.new.call(@env)
       end
     end
 
@@ -72,27 +73,20 @@ module Noise
 
     # @return [Hash] User info
     def user_info
-      user = default_user_info
-      if extractors.key?('user')
-        user.merge!(extractors['user'].new.call(@env))
-      end
-      if user.key?('name')
-        fail '`name` key is reserved to identify error itself'
-      else
-        user.merge!('name' => request.uuid)
-      end
+      user =
+        if extractors.key?('user')
+          extractors['user'].new.call(@env)
+        else
+          {}
+        end
+      fail '`name` key is reserved to identify error itself' if user.key?('name')
+      user.merge('name' => request.uuid)
     end
 
     private
 
     def request
       @request ||= ActionDispatch::Request.new(@env)
-    end
-
-    def default_user_info
-      {
-        'id' => request.remote_ip,
-      }
     end
   end
 end
