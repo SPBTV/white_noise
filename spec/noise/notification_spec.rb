@@ -121,8 +121,8 @@ RSpec.describe Noise::Notification do
     end
 
     context 'without extractors' do
-      it 'contains id and name' do
-        is_expected.to include('id' => '66.66.66.66', 'name' => request_id)
+      it 'contains name' do
+        is_expected.to include('name' => request_id)
       end
     end
   end
