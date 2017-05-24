@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-source 'http://lrepos.spbtv.com:8081/nexus/content/repositories/mirrored-rubygems/'
-source 'http://lrepos.spbtv.com:8081/nexus/content/repositories/private-rubygems/'
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in spbtv_exceptions.gemspec
 gemspec
