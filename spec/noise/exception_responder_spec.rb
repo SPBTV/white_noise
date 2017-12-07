@@ -10,7 +10,8 @@ RSpec.describe Noise::ExceptionResponder do
   subject(:responder) { described_class.new(env) }
 
   before do
-    Noise.config.bugsnag_project = 'spb-tv/rosing-api'
+    Noise.config.bugsnag_organization = 'spb-tv'
+    Noise.config.bugsnag_project = 'rosing-api'
   end
 
   context 'PublicError' do
@@ -32,7 +33,7 @@ RSpec.describe Noise::ExceptionResponder do
       it 'default headers' do
         expect(headers).to include(
           'Content-Type' => 'application/json; charset=utf-8',
-          'Content-Length' => '336',
+          'Content-Length' => /\d+/,
         )
       end
     end
@@ -48,7 +49,7 @@ RSpec.describe Noise::ExceptionResponder do
               'code' => 'bad_request',
               'links' => {
                 'about' => {
-                  'href' => "https://app.bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{error_id}", # rubocop:disable Metrics/LineLength
+                  'href' => "https://app.bugsnag.com/spb-tv/rosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{error_id}", # rubocop:disable Metrics/LineLength
                 },
               },
               'object' => 'error',
@@ -83,7 +84,7 @@ RSpec.describe Noise::ExceptionResponder do
       it 'default headers' do
         expect(headers).to include(
           'Content-Type' => 'application/json; charset=utf-8',
-          'Content-Length' => '354',
+          'Content-Length' => /\d+/,
          )
       end
     end
@@ -99,7 +100,7 @@ RSpec.describe Noise::ExceptionResponder do
               'code' => 'internal_server_error',
               'links' => {
                 'about' => {
-                  'href' => "https://app.bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{error_id}", # rubocop:disable Metrics/LineLength
+                  'href' => "https://app.bugsnag.com/spb-tv/rosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{error_id}", # rubocop:disable Metrics/LineLength
                 },
               },
               'object' => 'error',
