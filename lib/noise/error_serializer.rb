@@ -5,7 +5,8 @@ require 'active_model_serializers'
 module Noise
   # Generic error serializer
   class ErrorSerializer < ActiveModel::Serializer
-    BUGSNAG_URL = 'https://app.bugsnag.com/{project}/errors?filters[event.since][]=30d&filters[user.name][]={id}'
+    BUGSNAG_URL =
+      'https://app.bugsnag.com/{organization}/{project}/errors?filters[event.since][]=30d&filters[user.name][]={id}'
 
     attributes(
       :id,
@@ -60,7 +61,7 @@ module Noise
       require 'addressable/template'
 
       template = Addressable::Template.new(BUGSNAG_URL)
-      template.expand(id: id, project: Noise.config.bugsnag_project)
+      template.expand(id: id, organization: Noise.config.bugsnag_organization, project: Noise.config.bugsnag_project)
     end
   end
 end

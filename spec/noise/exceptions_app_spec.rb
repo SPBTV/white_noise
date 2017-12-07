@@ -16,7 +16,8 @@ RSpec.describe Noise::ExceptionsApp do
   let(:error_message) { 'unknown_error' }
 
   before do
-    Noise.config.bugsnag_project = 'spb-tv/rosing-api'
+    Noise.config.bugsnag_organization = 'spb-tv'
+    Noise.config.bugsnag_project = 'rosing-api'
   end
 
   subject(:response) { described_class.new.call(env) }
@@ -31,7 +32,7 @@ RSpec.describe Noise::ExceptionsApp do
             code: 'bad_request',
             links: {
               about: {
-                href: "https://app.bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{request_id}", # rubocop:disable Metrics/LineLength
+                href: "https://app.bugsnag.com/spb-tv/rosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{request_id}", # rubocop:disable Metrics/LineLength
               },
             },
             object: 'error',
@@ -67,7 +68,7 @@ RSpec.describe Noise::ExceptionsApp do
             code: 'bad_request',
             links: {
               about: {
-                href: "https://app.bugsnag.com/spb-tv%2Frosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{request_id}", # rubocop:disable Metrics/LineLength
+                href: "https://app.bugsnag.com/spb-tv/rosing-api/errors?filters[event.since][]=30d&filters[user.name][]=#{request_id}", # rubocop:disable Metrics/LineLength
               },
             },
             object: 'error',
