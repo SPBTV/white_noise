@@ -5,8 +5,8 @@ require 'support/fixtures'
 require 'support/sleanup_notification'
 
 RSpec.describe Noise::BugsnagMiddleware do
-  subject(:middleware) { ->(bugsnag) { described_class.new(bugsnag.to_proc).call(bugsnag_notification) } }
-  let(:bugsnag_notification) { Bugsnag::Notification.new(error, Bugsnag::Configuration.new) }
+  subject(:middleware) { ->(bugsnag) { described_class.new(bugsnag.to_proc).call(report) } }
+  let(:report) { Bugsnag::Report.new(error, Bugsnag::Configuration.new) }
   let(:error) { RuntimeError.new('oops') }
 
   before do
@@ -39,7 +39,7 @@ RSpec.describe Noise::BugsnagMiddleware do
             'email' => 'papadopoulos@example.com',
             'name' => request_id,
           },
-          meta_data: include(api_client: { 'client_id' => 'android', 'client_version' => '1.0.0' }),
+          meta_data: include('api_client' => { 'client_id' => 'android', 'client_version' => '1.0.0' }),
           severity: 'error',
         ),
       )
@@ -50,8 +50,11 @@ RSpec.describe Noise::BugsnagMiddleware do
     it do
       is_expected.to yield_with_args(
         have_attributes(
-          user: {},
-          meta_data: include(api_client: {}),
+          user: {
+            'email' => nil,
+            'name' => nil,
+          },
+          meta_data: include('api_client' => {}),
           severity: 'error',
         ),
       )
