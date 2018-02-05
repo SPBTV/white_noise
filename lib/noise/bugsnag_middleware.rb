@@ -9,23 +9,23 @@ module Noise
       @bugsnag = bugsnag
     end
 
-    # @param bugsnag_notification [Bugsnag::Notification]
+    # @param report [Bugsnag::Report]
     #
-    def call(bugsnag_notification)
-      env = bugsnag_notification.request_data.fetch(:rack_env, {})
+    def call(report)
+      env = report.request_data.fetch(:rack_env, {})
       # Bugsnag::Notification unwraps stacked exceptions,
       # top-level exception (which we need) is the first.
-      error = bugsnag_notification.exceptions.first
+      error = report.exceptions.first
       notification = Notification.new(error, env)
 
-      bugsnag_notification.severity = notification.severity
-      bugsnag_notification.user = notification.user_info
+      report.severity = notification.severity
+      report.user = notification.user_info
 
       notification.to_hash.each_pair do |tab_name, value|
-        bugsnag_notification.add_tab(tab_name, value)
+        report.add_tab(tab_name, value)
       end
 
-      @bugsnag.call(bugsnag_notification)
+      @bugsnag.call(report)
     end
   end
 end
