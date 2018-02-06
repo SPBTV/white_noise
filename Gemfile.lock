@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    spbtv_noise (0.9.0)
-      actionpack (~> 4.0)
+    spbtv_noise (0.9.1)
+      actionpack (~> 4.2)
       active_model_serializers (= 0.10.0.rc4)
-      activesupport (~> 4.0)
+      activesupport (~> 4.2)
       i18n (~> 0.7.0)
       uber (~> 0.0.15)
 
