@@ -1,6 +1,6 @@
 # White Noise
 
-[![Build Status](https://travis-ci.org/moist-rb/action.svg?branch=master)](https://travis-ci.org/moist-rb/action)
+[![Build Status](https://travis-ci.org/SPBTV/white_noise.svg?branch=master)](https://travis-ci.org/SPBTV/white_noise)
 [![Gem Version](https://badge.fury.io/rb/white_noise.svg)](https://badge.fury.io/rb/white_noise)
 
 ![TV Statics](https://habrastorage.org/files/6ca/008/f52/6ca008f5290043daa94f705da21b6c6a.jpg)
