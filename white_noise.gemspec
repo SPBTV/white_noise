@@ -5,15 +5,13 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'noise/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'spbtv_noise'
+  spec.name          = 'white_noise'
   spec.version       = Noise::VERSION
   spec.authors       = ['Tema Bolshakov']
   spec.email         = ['abolshakov@spbtv.com']
-  spec.license       = 'SPB TV Proprietary'
+  spec.license       = 'Apache-2.0'
   spec.summary       = 'Defines middleware which renders exceptions and notifies Bugsnag.'
-  spec.homepage      = 'http://stash.mwm.local/projects/SS/repos/spbtv-statics'
-
-  spec.metadata['allowed_push_host'] = 'http://lrepos.spbtv.com:8081/nexus/content/repositories/private-rubygems/'
+  spec.homepage      = 'https://github.com/SPBTV/white_noise'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'

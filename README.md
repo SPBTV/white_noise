@@ -1,16 +1,15 @@
-# Noise
+# White Noise
 
 ![TV Statics](https://habrastorage.org/files/6ca/008/f52/6ca008f5290043daa94f705da21b6c6a.jpg)
 
-This gem defines middleware which renders exceptions in [standard SPB TV API style format](http://doc.dev.spbtv.com/rosing/client_api_overview.html#errors)
-and notifies [Bugsnag](http://bugsnag.com).
+This gem defines middleware which renders exceptions in JSON format and notifies [Bugsnag](http://bugsnag.com).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'noise', require: 'noise/railtie'
+gem 'white_noise', require: 'noise/railtie'
 ```
 
 ## Usage
@@ -28,12 +27,12 @@ Later somewhere in controller you may throw this exception:
 class V0::MoviesController < ApiController
   # @deprecated
   def index
-    fail GoneError.new(:outdated_api, 'API v0 is no longer active. Please migrate to API v1'
+    fail GoneError.new(:outdated_api, 'API v0 is no longer active. Please migrate to API v1')
   end
 end
 ```
 
-By default this error would be rendered in [standard SPB TV API style](http://doc.dev.spbtv.com/rosing/client_api_overview.html#errors):
+By default this error would be rendered in JSON-API like format internally used in SPB TV, but you can always define your own renderer:
 
 
 ```json
@@ -133,7 +132,8 @@ end
 If you want to show link to Bugsnag error page on the error response, you have to configure Bugsnag project:
 
 ```ruby
-Noise.config.bugsnag_project = 'spb-tv/rosing-api'
+Noise.config.bugsnag_organization = 'spb-tv'
+Noise.config.bugsnag_project = 'rosing-api'
 ```
 
 To disable Bugsnag integration:
@@ -166,16 +166,20 @@ or better be exceptions-free.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`.
-To release a new version,
-
-* update the version number in `version.rb`
-* run `gem build spbtv_noise.gemspec`,
-* push the `.gem` file to nexus `gem nexus path_to_gemfile.gem`
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version,
+update the version number in `lib/noise/version.rb`, and then run `bundle exec rake release`, which will create a git
+tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome at http://stash.mwm.local/projects/SS/repos/spbtv-noise.
+Bug reports and pull requests are welcome on GitHub at https://github.com/SPBTV/white_noise.
+
+## License
+
+Copyright 2018 SPB TV AG
+
+Licensed under the Apache License, Version 2.0 (the ["License"](LICENSE)); you may not use this file except in compliance with the License.
+You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
 

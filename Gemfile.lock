@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    spbtv_noise (0.9.1)
+    white_noise (1.0.0)
       actionpack (~> 4.2)
       active_model_serializers (= 0.10.0.rc4)
       activesupport (~> 4.2)
@@ -46,12 +46,12 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     i18n (0.7.0)
-    loofah (2.1.1)
+    loofah (2.2.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     parser (2.3.1.2)
       ast (~> 2.2)
@@ -105,7 +105,7 @@ GEM
       rubocop-checkstyle_formatter
     thor (0.20.0)
     thread_safe (0.3.6)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uber (0.0.15)
     unicode-display_width (1.1.0)
@@ -121,7 +121,7 @@ DEPENDENCIES
   rspec (~> 3.4)
   rspec_junit_formatter (~> 0.2.3)
   spbtv_code_style (= 1.4.1)
-  spbtv_noise!
+  white_noise!
 
 BUNDLED WITH
    1.16.0
