@@ -6,7 +6,7 @@ require 'support/sleanup_notification'
 
 RSpec.describe Noise::ExceptionsApp do
   let(:request_id) { SecureRandom.uuid }
-  let(:content_type) { Mime::JSON }
+  let(:content_type) { ::Mime[:json] }
   let(:env) do
     {
       'action_dispatch.exception' => exception,

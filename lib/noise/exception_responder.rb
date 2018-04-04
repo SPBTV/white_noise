@@ -37,7 +37,7 @@ module Noise
     # @return [Hash] headers
     def headers
       {
-        'Content-Type' => "#{::Mime::JSON}; charset=#{ActionDispatch::Response.default_charset}",
+        'Content-Type' => "#{::Mime[:json]}; charset=#{ActionDispatch::Response.default_charset}",
         'Content-Length' => body.bytesize.to_s,
       }
     end
