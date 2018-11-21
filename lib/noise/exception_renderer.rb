@@ -37,7 +37,7 @@ module Noise
     # @param responder [ExceptionResponder]
     # @return [String] error representation
     def render(responder)
-      ActiveModel::SerializableResource.new(
+      ActiveModelSerializers::SerializableResource.new(
         Array(error),
         each_serializer: error_serializer,
         adapter: :json,
