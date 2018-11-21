@@ -26,7 +26,7 @@ module Noise
   #
   #     def code
   #       if error.is_a?(PublicError)
-  #         error.message_id
+  #         error.code
   #       else
   #         :internal_server_error
   #       end

@@ -5,9 +5,7 @@ module Noise
   # Serializes api level errors to general errors format.
   #
   class PublicErrorSerializer < ErrorSerializer
-    def code
-      object.message_id
-    end
+    delegate :code, to: :object
 
     def title
       object.message

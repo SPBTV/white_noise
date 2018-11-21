@@ -10,17 +10,17 @@ module Noise
   # Base class for all api level errors
   #
   class PublicError < StandardError
-    attr_reader :message_id
+    attr_reader :code
     attr_reader :options
 
-    # @overload new(message_id, message)
-    #   Instantiate error with given message_id and message
-    #   @param message_id [Symbol]
+    # @overload new(code, message)
+    #   Instantiate error with given code and message
+    #   @param code [Symbol]
     #   @param message_or_options [String]
-    # @overload new(message_id, options)
-    #   Instantiate error with given message_id and options.
+    # @overload new(code, options)
+    #   Instantiate error with given code and options.
     #   Options would be passed to I18n key
-    #   @param message_id [Symbol]
+    #   @param code [Symbol]
     #   @param message_or_options [Hash{Symbol => any}]
     #   @example
     #     Given the following I18n key exists:
@@ -31,8 +31,8 @@ module Noise
     #     To render error with this message:
     #       PublicError.new(:unknown_fields, fields: 'nickname, phone')
     #
-    def initialize(message_id, message_or_options = nil)
-      @message_id = message_id.to_sym
+    def initialize(code, message_or_options = nil)
+      @code = code.to_sym
       case message_or_options
       when Hash
         @options = message_or_options
@@ -45,7 +45,7 @@ module Noise
 
     # @return [String]
     def message
-      @message.presence || I18n.t("noise.#{self.class.name.demodulize.underscore}.#{@message_id}", @options)
+      @message.presence || I18n.t("noise.#{self.class.name.demodulize.underscore}.#{@code}", @options)
     end
 
     # @return [String]
@@ -89,7 +89,7 @@ module Noise
 
   # 404
   class NotFoundError < PublicError
-    def initialize(message_id = 'not_found', message = nil)
+    def initialize(code = :not_found, message = nil)
       super
     end
   end
@@ -101,7 +101,7 @@ module Noise
 
   # 415
   class UnsupportedMediaTypeError < PublicError
-    def initialize(message_id = 'unsupported_media_type', message = nil)
+    def initialize(code = :unsupported_media_type, message = nil)
       super
     end
   end
@@ -109,7 +109,7 @@ module Noise
 
   # 422
   class UnprocessableEntityError < PublicError
-    def initialize(message_id = :unprocessable_entity, message = nil)
+    def initialize(code = :unprocessable_entity, message = nil)
       super
     end
   end

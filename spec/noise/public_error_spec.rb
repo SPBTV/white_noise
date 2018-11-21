@@ -13,7 +13,7 @@ RSpec.describe Noise::PublicError do
                                    )
   end
 
-  context 'when only message_id given' do
+  context 'when only code given' do
     subject { described_class.new(:message_without_options).message }
 
     it 'fetch message from localization' do
@@ -21,7 +21,7 @@ RSpec.describe Noise::PublicError do
     end
   end
 
-  context 'when message_id and message given' do
+  context 'when code and message given' do
     subject { described_class.new(:message_without_options, 'baz').message }
 
     it 'fetch message initializer' do
@@ -29,7 +29,7 @@ RSpec.describe Noise::PublicError do
     end
   end
 
-  context 'when message_id and message options given' do
+  context 'when code and message options given' do
     subject { described_class.new(:message_with_options, foo: 1, bar: 2).message }
 
     it 'fetch message from localization' do

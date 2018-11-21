@@ -8,11 +8,11 @@ module Noise
   class RateLimitError < PublicError
     attr_reader :retry_after
 
-    # @param message_id [Symbol]
+    # @param code [Symbol]
     # @param [String] retry_after
     #
-    def initialize(message_id, retry_after:)
-      super(message_id)
+    def initialize(code, retry_after:)
+      super(code)
 
       @retry_after = retry_after
     end
