@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require 'active_support/core_ext/object/try'
+
 module Noise
   # Determines how to render exception
   #
@@ -42,7 +45,7 @@ module Noise
         each_serializer: error_serializer,
         adapter: :json,
         root: 'errors',
-        meta: { 'status' => responder.status_code },
+        meta: { 'status' => responder.status_code }.merge(error.try(:meta_hash) || {}),
         scope: { http_status: responder.status_code, id: error_id },
       ).as_json.to_json
     end
