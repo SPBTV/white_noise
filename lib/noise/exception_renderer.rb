@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require 'active_support/core_ext/object/try'
+
 module Noise
   # Determines how to render exception
   #
@@ -26,7 +29,7 @@ module Noise
   #
   #     def code
   #       if error.is_a?(PublicError)
-  #         error.message_id
+  #         error.code
   #       else
   #         :internal_server_error
   #       end
@@ -37,12 +40,12 @@ module Noise
     # @param responder [ExceptionResponder]
     # @return [String] error representation
     def render(responder)
-      ActiveModel::SerializableResource.new(
+      ActiveModelSerializers::SerializableResource.new(
         Array(error),
         each_serializer: error_serializer,
         adapter: :json,
         root: 'errors',
-        meta: { 'status' => responder.status_code },
+        meta: { 'status' => responder.status_code }.merge(error.try(:meta_hash) || {}),
         scope: { http_status: responder.status_code, id: error_id },
       ).as_json.to_json
     end
