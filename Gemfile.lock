@@ -3,7 +3,7 @@ PATH
   specs:
     white_noise (1.1.0)
       actionpack
-      active_model_serializers (>= 0.10.0.rc4, < 0.11.0)
+      active_model_serializers (>= 0.10.0.rc5, < 0.11.0)
       activesupport
       i18n (~> 0.7.0)
       uber (~> 0.0.15)
