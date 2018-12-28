@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'noise/public_error'
+require 'noise'
 require 'active_support/core_ext/hash/slice'
 
 TestError = Class.new(Noise::PublicError)
