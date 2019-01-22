@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    white_noise (1.1.1)
+    white_noise (1.1.2)
       actionpack
       active_model_serializers (= 0.10.5)
       activesupport
