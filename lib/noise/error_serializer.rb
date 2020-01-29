@@ -52,6 +52,7 @@ module Noise
       http_status = scope.try(:[], :http_status).to_i
       default_message = Rack::Utils::HTTP_STATUS_CODES[500]
       status_code = Rack::Utils::HTTP_STATUS_CODES.fetch(http_status, default_message)
+      require 'pry'; binding.pry
       status_code.parameterize.underscore.to_sym
     end
 
